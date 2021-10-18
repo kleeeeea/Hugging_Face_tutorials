@@ -1,5 +1,6 @@
 import torch.nn as nn
 import numpy as np
+from transformers import IntervalStrategy
 
 from transformers import ViTFeatureExtractor, ViTModel, ViTForImageClassification, TrainingArguments, Trainer, \
     default_data_collator, EarlyStoppingCallback
@@ -60,10 +61,11 @@ class ViTForImageClassification2(nn.Module):
             attentions=outputs.attentions,
         )
 
-
+# "epoch"
 args = TrainingArguments(
     f"test-cifar-10",
-    evaluation_strategy="epoch",
+    evaluation_strategy=IntervalStrategy.EPOCH,
+    save_strategy=IntervalStrategy.EPOCH,
     learning_rate=2e-5,
     per_device_train_batch_size=10,
     per_device_eval_batch_size=4,
